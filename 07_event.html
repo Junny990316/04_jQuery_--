@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Insert title here</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <script>
+      $(document).ready(function () {
+        //1. button 이벤트
+        // $("#ok").on("click  mouseover",function(){
+        //   console.dir(event.target);
+        //   console.dir(this);
+        //   console.dir($(this));
+        //   console.dir($(this).text());
+        // });
+
+        $("#ok").on({
+          mouseover: function () {
+            $(this).css("background-color", "yellow");
+          },
+          mouseleave: function () {
+            $(this).css("background-color", "white");
+          },
+          click: function () {
+            $(this).text($(this).text().toLowerCase()).css("font-size", "32px");
+          },
+        });
+
+        $("#txtInput").on("keyup", function (e) {
+          console.log($(this).val());
+          $("#textSpan").text($(this).val());
+        });
+
+        $("#hover").hover(
+          function () {
+            console.log("mouseenter");
+          },
+          function () {
+            console.log("mouseleave");
+          }
+        );
+
+        $("#hoverImg").hover(
+          function () {
+            // mouseover
+            $(this).attr({ src: "./images/b.jpg" }).css("border-radius", "50%");
+          },
+          function () {
+            // mouseleave
+            $(this).attr({ src: "./images/a.jpg" }).css("border-radius", "30%");
+          }
+        );
+
+        //2. change 이벤트
+        $("select").on("change", function () {
+          console.log("select 선택!!" + $(":selected").text());
+          console.log("select 선택!!" + $(this).val());
+
+          let img_url = `./images/${$(this).val()}.png`;
+          $("#fruitImg").attr("src", img_url);
+        });
+
+        //3.checkbox 선택
+        // $("#checkbox").on("change", function(){
+        // 	console.log(this.checked);
+        // });
+        $("#all").on("click", function () {
+          let allChecked = this.checked;
+          $(".fruit").each(function (idx, chkbox) {
+            chkbox.checked = allChecked;
+          });
+        });
+
+        //4. submit 이벤트
+        $("form").on("submit", function () {
+          if ($("#userid").val().length == 0) {
+            // submit 디폴트 이벤트가 동작하지 못하게 함
+            event.preventDefault();
+            alert("아이디는 필수 항목입니다.");
+            $("#userid").focus();
+          }
+        });
+      });
+    </script>
+  </head>
+  <body>
+    <button id="ok">OK</button><br />
+    text:<input type="text" id="txtInput" /> <br />
+    <span id="textSpan"></span><br />
+
+    <button id="hover">hover</button><br />
+    <img id="hoverImg" src="./images/a.jpg" height="100" width="100" />
+
+    <form action="http://www.google.com">
+      아이디<input type="text" name="userid" id="userid" /><br />
+      비밀번호<input type="text" name="passwd" /><br />
+
+      <select name="fruit">
+        <option value="apple">사과</option>
+        <option value="banana">바나나</option>
+        <option value="watermelon">수박</option></select
+      ><br />
+      <img src="./images/apple.png" id="fruitImg" width="100" height="100" />
+      <br />
+
+      전체선택
+      <input type="checkbox" name="all" id="all" /><br />
+      <input type="checkbox" name="apple" class="fruit" />사과<br />
+      <input type="checkbox" name="banana" class="fruit" />바나나<br />
+      <input type="checkbox" name="watermelon" class="fruit" />수박<br />
+      사과<input type="checkbox" name="checkbox" id="checkbox" checked />
+
+      <input type="submit" value="전송" />
+    </form>
+  </body>
+</html>
